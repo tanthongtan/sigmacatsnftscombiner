@@ -5,8 +5,11 @@ import numpy as np
 import hashlib as h
 import json
 
+#set the size of the image you want
 size = (2048,2048)
+#rename this to be the same as the folder names in layers
 layers = ["Background", "Item", "Body", "Eyes", "Shirt", "Earrings", "Head", "Mouth"]
+#how many nfts in your collection
 collection_size = 2000
 
 #generate probabilities
@@ -16,12 +19,13 @@ for layer in layers:
     weights = []
     files = []
     for filename in os.listdir(os.path.join("layers",layer)):
-        weight=re.search("#(\d+)|$", filename).group(1)
-        if weight:
-            weights.append(float(weight))
-        else:
-            weights.append(1.0)
-        files.append(filename)
+        if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
+            weight=re.search("#(\d+)|$", filename).group(1)
+            if weight:
+                weights.append(float(weight))
+            else:
+                weights.append(1.0)
+            files.append(filename)
     weights_sum = sum(weights)
     layer_probabilities.append([weight/weights_sum for weight in weights])
     layer_files.append(files)
