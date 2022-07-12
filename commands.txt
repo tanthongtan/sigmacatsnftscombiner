@@ -1,0 +1,1 @@
+./pngquant.exe --speed 1 --strip 28.png -o 28c.png
